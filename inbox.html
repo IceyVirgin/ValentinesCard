@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Will You Be My Valentine?</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap"
+rel="stylesheet">
+
+<style>
+   * { margin:0; padding:0; box-sizing:border-box;
+font-family:'Poppins',sans-serif; }
+   body {
+    overflow-x: hidden;
+     color:#ffffff;
+     scroll-behavior: smooth;
+       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+     /* Background romantic image */
+     background-image: url("https://4kwallpapers.com/images/wallpapers/hello-kitty-2560x1440-22598.png");
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+   }
+
+   /* Floating hearts background */
+   .heart {
+     position: fixed;
+     width: 15px;
+     height: 15px;
+     background: red;
+     transform: rotate(45deg);
+     animation: float 8s linear infinite;
+     opacity: 0.6;
+   }
+   .heart::before, .heart::after {
+     content:'';
+     position:absolute;
+     width:15px;height:15px;
+     background:red;border-radius:50%;
+   }
+   .heart::before { top:-7px; left:0; }
+   .heart::after { left:-7px; top:0; }
+
+   @keyframes float {
+     0% { transform:translateY(100vh) rotate(45deg); opacity:0; }
+     20%{opacity:0.7;}
+     100%{ transform:translateY(-10vh) rotate(45deg); opacity:0;}
+   }
+
+   header {
+     height:50vh;
+     display:flex;
+     flex-direction:column;
+     justify-content:center;
+     align-items:center;
+     text-align:center;
+     padding:20px; /* Reduced padding for mobile */
+   }
+
+   h1 {
+     font-family:'Playfair Display',serif;
+     font-size: clamp(2rem, 8vw, 3.5rem); /* Responsive font size */
+     margin-bottom:10px;
+   }
+
+   .subtitle {
+     font-size: clamp(1rem, 4vw, 1.4rem); /* Responsive font size */
+     margin-bottom:40px;
+   }
+
+   .buttons {
+     position: relative;
+     width: min(400px, 90vw); /* Adjusted width to accommodate side-by-side buttons */
+     height: auto; /* Changed to auto for better fit */
+     display: flex;
+     flex-direction: row; /* Changed to row for side-by-side layout */
+     align-items: center;
+     justify-content: center;
+     gap: 20px; /* Space between buttons */
+   }
+
+   button {
+     padding:15px 30px;
+     border:none;
+     border-radius:30px;
+     font-size: clamp(1rem, 3vw, 1.2rem); /* Responsive font size */
+     cursor:pointer;
+     transition: all .3s ease;
+     box-shadow:0 8px 20px rgba(0,0,0,0.2);
+     position: static; /* Changed from absolute for better mobile layout */
+   }
+
+   #yesBtn {
+     background:#28a745;
+     color:white;
+   }
+
+   #noBtn {
+     background:#dc3545;
+     color:white;
+   }
+
+   section {
+     padding:40px 20px; /* Reduced padding for mobile */
+     text-align:center;
+   }
+
+   .love-notes h2 {
+     font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive font size */
+     margin-bottom:30px;
+   }
+
+   .note {
+     background: rgba(255, 255, 255, 0.8); /* Fixed: semi-transparent white background */
+     margin:20px auto;
+     max-width: min(400px, 90vw); /* Responsive max-width */
+     padding:15px;
+     border-radius:20px;
+     box-shadow:0 5px 15px rgba(0,0,0,0.1);
+     color: #333; /* Added for better contrast */
+     text-shadow: none; /* Remove outline for notes */
+   }
+
+   footer {
+     padding:20px; /* Reduced padding for mobile */
+     text-align:center;
+     font-size: clamp(0.8rem, 3vw, 1rem); /* Responsive font size */
+   }
+
+   /* Fullscreen YES message */
+   #yesMessage {
+     position:fixed;
+     inset:0;
+     background-image: url("https://userstyles.org/style_screenshots/262767_after.png?r=1769054418");
+     display:flex;
+     flex-direction: column;
+     justify-content:center;
+     align-items:center;
+     text-align:center;
+     padding:20px;
+     font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive font size */
+     font-weight:600;
+     z-index:999;
+     display:none;
+     color:#ffffff;
+     opacity: 0; /* Start hidden for fade-in */
+     animation: fadeIn 1s ease-in-out forwards; /* Fade-in animation */
+   }
+
+   #yesMessage img {
+     max-width: min(200px, 80vw); /* Responsive image size */
+     margin-bottom: 20px; /* Space between image and text */
+     border-radius: 10px; /* Optional: round corners */
+   }
+
+   #yesMessage .animated-heart {
+     width: min(100px, 20vw); /* Responsive heart size */
+     height: min(100px, 20vw);
+     margin-bottom: 20px;
+     animation: pulse 1.5s infinite; /* Pulsing animation */
+   }
+
+   #closeBtn {
+     position: absolute;
+     top: 20px;
+     right: 20px;
+     background: #dc3545;
+     color: white;
+     border: none;
+     border-radius: 50%;
+     width: 50px;
+     height: 50px;
+     font-size: 1.5rem;
+     cursor: pointer;
+     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+     transition: all 0.3s ease;
+   }
+
+   #closeBtn:hover {
+     background: #c82333;
+     transform: scale(1.1);
+   }
+
+   @keyframes fadeIn {
+     to { opacity: 1; }
+   }
+
+   @keyframes pulse {
+     0% { transform: scale(1); }
+     50% { transform: scale(1.1); }
+     100% { transform: scale(1); }
+   }
+
+   canvas {
+     position:fixed;
+     inset:0;
+     pointer-events:none;
+     z-index:998;
+   }
+
+   /* Mobile-specific adjustments */
+   @media (max-width: 768px) {
+     body {
+       background-attachment: scroll; /* Disable fixed background on mobile for better performance */
+     }
+     .buttons {
+       height: auto; /* Allow height to adjust */
+     }
+   }
+</style>
+</head>
+
+<body>
+
+<header>
+   <h1>Will You Be My Valentine?</h1>
+   
+   <div class="subtitle">You'd make me the luckiest guy in the world!</div>
+
+   <div class="buttons">
+     <button id="yesBtn">YES! 💖</button>
+     <button id="noBtn">No! 😢</button>
+   </div>
+</header>
+
+<section class="love-notes">
+   <h2>Why you’re amazing</h2>
+   <div class="note">💗 You understand me like no one else</div>
+   <div class="note">💗 You're the sweetest and most kindest person I know</div>
+   <div class="note">💗 You're my favourite person in the world</div>
+   <div class="note">💗 Everything is better with you</div>
+</section>
+
+<footer>
+   Made by Ilo, for the love of my life ❤️
+</footer>
+
+<div id="yesMessage">
+   <button id="closeBtn">×</button>
+   <img src="https://media.tenor.com/fz4_irvGQlcAAAAM/besito-catlove.gif" alt="Romantic couple or heart image"> 
+   YAY I KNEW YOU'D SAY YES!!! You make me the happiest person alive 💘<br/>
+   I can't wait to spend every Valentine's day with you baby, you mean the world to mee!!!
+   
+</div>
+
+
+<canvas id="confetti"></canvas>
+
+
+<script>
+/* Floating hearts generator */
+for(let i=0;i<25;i++){
+   const h=document.createElement('div');
+   h.className='heart';
+   h.style.left=Math.random()*100+'vw';
+   h.style.animationDuration=5+Math.random()*5+'s';
+   document.body.appendChild(h);
+}
+
+/* Moving NO button - updated for mobile */
+const noBtn = document.getElementById('noBtn');
+function moveNoBtn() {
+   const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+   const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+   noBtn.style.position = 'absolute';
+   noBtn.style.left = x + 'px';
+   noBtn.style.top = y + 'px';
+}
+noBtn.addEventListener('mouseover', moveNoBtn);
+noBtn.addEventListener('touchstart', moveNoBtn); // Added for mobile touch
+
+/* YES button action */
+const yesBtn = document.getElementById('yesBtn');
+const msg = document.getElementById('yesMessage');
+const closeBtn = document.getElementById('closeBtn');
+yesBtn.addEventListener('click', () => {
+   msg.style.display = 'flex';
+   startConfetti();
+});
+
+/* Close button action */
+closeBtn.addEventListener('click', () => {
+   msg.style.display = 'none';
+   // Optionally stop confetti or reset
+   confetti = [];
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+/* Confetti effect */
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confetti = [];
+
+function startConfetti(){
+   for(let i=0;i<200;i++){
+     confetti.push({
+       x: Math.random()*canvas.width,
+       y: Math.random()*canvas.height - canvas.height,
+       r: Math.random()*6+2,
+       d: Math.random()*200,
+       color: `hsl(${Math.random()*360},100%,60%)`,
+       tilt: Math.random()*10-10
+     });
+   }
+   animateConfetti();
+}
+
+function animateConfetti(){
+   ctx.clearRect(0,0,canvas.width,canvas.height);
+   confetti.forEach(c=>{
+     ctx.beginPath();
+     ctx.fillStyle=c.color;
+     ctx.fillRect(c.x, c.y, c.r, c.r);
+   });
+   updateConfetti();
+   requestAnimationFrame(animateConfetti);
+}
+
+function updateConfetti(){
+   confetti.forEach(c=>{
+     c.y += Math.cos(c.d)+3;
+     c.x += Math.sin(c.d);
+     if(c.y > canvas.height){
+       c.y = -10;
+       c.x = Math.random()*canvas.width;
+     }
+   });
+}
+
+/* Resize canvas on window resize */
+window.addEventListener('resize', () => {
+   canvas.width = window.innerWidth;
+   canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+
+</html>
